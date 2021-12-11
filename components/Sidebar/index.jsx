@@ -16,7 +16,7 @@ import Link from "next/link";
 
 export default function Sidebar() {
   return (
-    <div className="flex-1 h-[calc(100vh-50px)] bg-gray-50 sticky top-[50px]">
+    <div className="flex-1 h-[calc(100vh-50px)] rounded-2xl bg-indigo-100 m-5 sticky top-[50px] shadow-lg">
       <div className="p-5 text-gray-700">
         <div className="mb-3">
           <h3 className="text-sm font-bold text-gray-400">Dashboard</h3>

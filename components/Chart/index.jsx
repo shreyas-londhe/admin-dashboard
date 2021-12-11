@@ -9,7 +9,7 @@ import {
 
 export default function Chart({ title, data, dataKey, grid }) {
   return (
-    <div className="p-5 m-5 shadow-md rounded-xl bg-gray-50">
+    <div className="p-5 m-5 shadow-md bg-gray-50 rounded-xl">
       <h3 className="m-5 text-3xl font-bold">{title}</h3>
       <ResponsiveContainer width="100%" aspect={4 / 1}>
         <LineChart data={data}>

@@ -1,51 +1,80 @@
 import { DataGrid } from "@material-ui/data-grid";
-
-const columns = [
-  { field: "id", headerName: "ID", width: 70 },
-  { field: "firstName", headerName: "First name", width: 300 },
-  { field: "lastName", headerName: "Last name", width: 300 },
-  {
-    field: "age",
-    headerName: "Age",
-    type: "number",
-    width: 120,
-  },
-  {
-    field: "isAlive",
-    headerName: "Is Alive",
-    type: "boolean",
-    width: 200,
-  },
-];
-
-const rows = [
-  { id: 1, lastName: "Snow", firstName: "Jon", age: 35, isAlive: false },
-  { id: 2, lastName: "Lannister", firstName: "Cersei", age: 42, isAlive: true },
-  { id: 3, lastName: "Lannister", firstName: "Jaime", age: 45, isAlive: true },
-  { id: 4, lastName: "Stark", firstName: "Arya", age: 16, isAlive: true },
-  {
-    id: 5,
-    lastName: "Targaryen",
-    firstName: "Daenerys",
-    age: null,
-    isAlive: false,
-  },
-  { id: 6, lastName: "Melisandre", firstName: null, age: 150, isAlive: false },
-  { id: 7, lastName: "Clifford", firstName: "Ferrara", age: 44, isAlive: true },
-  { id: 8, lastName: "Frances", firstName: "Rossini", age: 36, isAlive: false },
-  { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65, isAlive: true },
-];
+import { DeleteOutline } from "@material-ui/icons";
+import { userRows } from "../dummyData";
+import Link from "next/link";
+import { useState } from "react";
 
 export default function UserList() {
+  const [rows, setRows] = useState(userRows);
+
+  const handleDelete = (id) => {
+    setRows(rows.filter((row) => row.id !== id));
+  };
+
+  const columns = [
+    { field: "id", headerName: "ID", width: 70 },
+    {
+      field: "user",
+      headerName: "User",
+      width: 300,
+      renderCell: (params) => {
+        return (
+          <div className="flex items-center">
+            <img
+              className="object-cover mr-3 rounded-full w-9 h-9"
+              src={params.row.avatar}
+              alt=""
+            />
+            {params.row.username}
+          </div>
+        );
+      },
+    },
+    { field: "email", headerName: "Email", width: 300 },
+    {
+      field: "status",
+      headerName: "Status",
+      width: 120,
+    },
+    {
+      field: "transaction",
+      headerName: "Transaction",
+      width: 200,
+    },
+    {
+      field: "action",
+      headerName: "Action",
+      width: 150,
+      renderCell: (params) => {
+        return (
+          <div>
+            <>
+              <Link href="/user/[id]" as={`/user/${params.row.id}`}>
+                <button className="px-2 py-1 mr-5 text-white bg-green-600 cursor-pointer rounded-xl">
+                  Edit
+                </button>
+              </Link>
+              <DeleteOutline
+                className="text-red-700 cursor-pointer"
+                onClick={() => handleDelete(params.row.id)}
+              />
+            </>
+          </div>
+        );
+      },
+    },
+  ];
+
   return (
-    <div className="flex-4">
-      <div style={{ height: 400, width: "100%" }}>
+    <div>
+      <div style={{ height: "75vh", width: "100%" }}>
         <DataGrid
           rows={rows}
           columns={columns}
-          pageSize={5}
+          pageSize={8}
           rowsPerPageOptions={[5]}
           checkboxSelection
+          disableSelectionOnClick
         />
       </div>
     </div>
