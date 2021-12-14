@@ -60,7 +60,7 @@ export const userRows = [
   },
   {
     id: 2,
-    username: "Jon Snow",
+    username: "Jon Hot",
     avatar: "/profile-pic.jpg",
     email: "jon@email.com",
     status: "active",

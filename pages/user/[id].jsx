@@ -7,8 +7,26 @@ import {
   PhoneAndroid,
   Publish,
 } from "@material-ui/icons";
+import { useState } from "react";
+import { useRouter } from "next/router";
+import { userRows } from "../../dummyData";
 
-export default function User() {
+export default function User({}) {
+  const router = useRouter();
+  const { id } = router.query;
+
+  const data = userRows.find((user) => user.id === parseInt(id));
+
+  const [formState, setFormState] = useState(data);
+
+  const formHandler = (event) => {
+    setFormState({
+      ...formState,
+      [event.target.name]: event.target.value,
+    });
+    console.log(formState);
+  };
+
   return (
     <div className="m-5">
       <div className="flex items-center justify-between">
@@ -28,7 +46,7 @@ export default function User() {
               alt=""
             />
             <div className="flex flex-col ml-5">
-              <span className="text-xl font-semibold">Jon Snow</span>
+              <span className="text-xl font-semibold">{data.username}</span>
               <span className="font-light">Knows Nothing</span>
             </div>
           </div>
@@ -70,15 +88,10 @@ export default function User() {
                 <input
                   className="border-b-[1px] h-7 border-gray-700 focus:outline-none focus:border-b-2 w-60"
                   type="text"
-                  placeholder="jonSnow123"
-                />
-              </div>
-              <div className="flex flex-col mt-3">
-                <label className="mb-1 text-sm font-light">Full Name</label>
-                <input
-                  className="border-b-[1px] h-7 border-gray-700 focus:outline-none focus:border-b-2 w-60"
-                  type="text"
                   placeholder="Jon Snow"
+                  value={formState.username}
+                  name="username"
+                  onChange={formHandler}
                 />
               </div>
               <div className="flex flex-col mt-3">
@@ -87,22 +100,9 @@ export default function User() {
                   className="border-b-[1px] h-7 border-gray-700 focus:outline-none focus:border-b-2 w-60"
                   type="text"
                   placeholder="jonSnow123@email.com"
-                />
-              </div>
-              <div className="flex flex-col mt-3">
-                <label className="mb-1 text-sm font-light">Phone</label>
-                <input
-                  className="border-b-[1px] h-7 border-gray-700 focus:outline-none focus:border-b-2 w-60"
-                  type="text"
-                  placeholder="+17 234-567-890"
-                />
-              </div>
-              <div className="flex flex-col mt-3">
-                <label className="mb-1 text-sm font-light">Address</label>
-                <input
-                  className="border-b-[1px] h-7 border-gray-700 focus:outline-none focus:border-b-2 w-60"
-                  type="text"
-                  placeholder="4, Dragonstone"
+                  value={formState.email}
+                  name="email"
+                  onChange={formHandler}
                 />
               </div>
             </div>
@@ -118,9 +118,11 @@ export default function User() {
                 </label>
                 <input type="file" id="file" style={{ display: "none" }} />
               </div>
-              <button className="p-1 font-semibold text-white bg-blue-800 rounded-md cursor-pointer">
-                Update
-              </button>
+              <Link href="/userList">
+                <button className="p-1 font-semibold text-white bg-blue-800 rounded-md cursor-pointer">
+                  Update
+                </button>
+              </Link>
             </div>
           </form>
         </div>
